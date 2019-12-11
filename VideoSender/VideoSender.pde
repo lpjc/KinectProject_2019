@@ -11,11 +11,7 @@ import org.openkinect.processing.*;
 
 Kinect kinect;
 
-//byte[] sn = ip.getAddress();
-// This is the port we are sending to
-int clientPort = 9100; 
-//byte[] ipAddr = new byte[] { 127, 0, 0, 1 };
-//InetAddress client = InetAddress.getByName("Localhost");
+int clientPort = 9100; // Port we are sending to - the receiver needs this
 
 // This is our object that sends UDP out
 DatagramSocket ds; 
@@ -35,9 +31,7 @@ void setup() {
   } 
   
    size(640, 480);
-  // Images must be in the "data" directory to load correctly
-  imgt = loadImage("maybe.jpg");
-  
+
   kinect = new Kinect(this);
   kinect.initDepth();
   
@@ -46,16 +40,14 @@ void setup() {
 }
 
 void draw() {
-  //println(kinect.width + " " + kinect.height); 640 480
- // image(img, 0, 0);
-    
-  // Threshold the depth image
+
+  // Threshold for the desired depth of the Kinect Sihlouttes
   int[] rawDepth = kinect.getRawDepth();
   for (int i=0; i < rawDepth.length; i++) {
     if (rawDepth[i] >= minDepth && rawDepth[i] <= maxDepth) {
       depthImg.pixels[i] = color(0,0,120);
     } else {
-      depthImg.pixels[i] = color(255);
+      depthImg.pixels[i] = color(0,0,0,255);
     }
   }
 
@@ -65,24 +57,18 @@ void draw() {
   broadcast(depthImg);
 }
 
-// Function to broadcast a PImage over UDP
-// Special thanks to: http://ubaa.net/shared/processing/udp/
-// (This example doesn't use the library, but you can!)
+// BROADCASTING METHOD for UDP protocol
 void broadcast(PImage img) {
 
   // We need a buffered image to do the JPG encoding
   BufferedImage bimg = new BufferedImage( img.width,img.height, BufferedImage.TYPE_INT_RGB );
 
-  // Transfer pixels from localFrame to the BufferedImage
-  img.loadPixels();
+  img.loadPixels(); // loading th epixels in current display down to img
   bimg.setRGB( 0, 0, img.width, img.height, img.pixels, 0, img.width);
 
   // Need these output streams to get image as bytes for UDP communication
   ByteArrayOutputStream baStream	= new ByteArrayOutputStream();
   BufferedOutputStream bos		= new BufferedOutputStream(baStream);
-
-  // Turn the BufferedImage into a JPG and put it in the BufferedOutputStream
-  // Requires try/catch
   
   try {
     ImageIO.write(bimg, "jpg", bos);
@@ -90,17 +76,16 @@ void broadcast(PImage img) {
   catch (IOException e) {
     e.printStackTrace();
   }
-
-  // Get the byte array, which we will send out via UDP!
+  
   byte[] packet = baStream.toByteArray();
 
   // Send JPEG data as a datagram
   println("Sending datagram with " + packet.length + " bytes");
   try {
     
-    // InetAddress address = InetAddress.getByName("127.0.0.1"); 
-    // ^-- IF TO SAME MACHINE
-    InetAddress address = InetAddress.getByName("192.168.87.179");
+    //InetAddress address = InetAddress.getByName("127.0.0.1"); 
+    // ^-- IF TO SAME MACHINE, FOR TESTING 
+    InetAddress address = InetAddress.getByName("192.168.87.155"); // ADD IP HERE
     // ^-- NEED IP OF DESTINATION MACHINE
     
     byte[] byteIP = address.getAddress();
