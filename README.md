@@ -11,6 +11,7 @@
 </pre></body></html>
 
 4) In the VideoSender(s), replace the IP at line 88 with the host IP of the receiving machine
+    
     TIP!: on windows, go to commandpromt on the receivering machine and write <html><body><pre> ipconfig </pre></body></html> to find the IP of the machine.
     
 5) Run the applications, the VideoSender(s) might need to be rebooted once for the Kinect to establish connection.
