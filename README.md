@@ -6,6 +6,7 @@
 2) Open VideoSender on the machine connected to a kinect. (max one kinect per machine)
 
 3) In the VideoSender(s) - modify the port to be unique for each machine(and pref +9000)
+  
   3a) in the VideoReceiver_pde - replace the 9100 and 9200 in line 11 with the port you've chosen (you can also add more):  <html><body><pre>
 &nbsp;&nbsp;<span style="color: #E2661A;">int</span>[] ports = {9100, 9200}; <span style="color: #666666;">// ADD PORTS HERE - ADD ONLY THE ONES THAT ARE USED </span>
 </pre></body></html>
