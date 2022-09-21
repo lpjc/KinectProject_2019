@@ -1,5 +1,6 @@
 # KinectProject_2019
-5th semester project for RUC.
+
+A program to send the data from one or more kinect(s), via one program to another program on LAN.
 
 1 ) Open VideoReceiver_pde on the machine u need to have as destination
 
@@ -17,7 +18,5 @@
     
 5 ) Run the applications, the VideoSender(s) might need to be rebooted once for the Kinect to establish connection.
 
-
-
-Questions? write me
-@LPJC on github or lpjc(at)ruc.dk
+Questions? write me:
+@LPJC on github or see lars.design
